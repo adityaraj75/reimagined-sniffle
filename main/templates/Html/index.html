@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Voice Modulator</title>
+		<link rel="stylesheet" href="style.css">
+		<script src="js/effect.js"></script>
+		<script src="js/waveshaper.js"></script>
+		<script src="js/jungle.js"></script>
+		<script src="js/effects.js"></script>
+		<script src="js/apollo.js"></script>
+
+		<!-- Visualizer stuff -->
+		<script src="js/visualizer/events.js"></script>
+
+		<!-- WebGL stuff -->
+		<script src="js/visualizer/base.js"></script>
+		<script src="js/visualizer/cameracontroller.js"></script>
+
+		<!-- TODO(kbr): remove this dependency -->
+		<script src="js/visualizer/matrix4x4.js"></script>
+
+		<!-- Visualizer GL library -->
+		<script src="js/visualizer/visualizer.js"></script>
+		<script src="js/visualizer/shader.js"></script>
+
+		<style>
+		body { font: 14pt Arial, sans-serif; background: #333; color: gray;}
+		select { font: 14pt Arial, sans-serif; }
+		div#controls div { display:none; border: 1px solid darkgray; border-radius: 5px; padding: 10px; width: 728px;}
+		div#controls div.display { display: block; }
+		#controls { padding-top: 24px;}
+		#effectMix { padding-top: 12px;}
+		#arranger { width:750px; margin: 25px auto}
+		</style>
+	</head>
+	<body>
+
+		<div id="message" style="color:white;">Please use earphones or headphones with working mic. Firefox is recommended </div>
+		<div id="arranger">
+		<canvas id="view1" width="750" height="200"></canvas><br>
+		<canvas id="view2" width="750" height="200"></canvas>
+		<div id="effectMix">
+			Effect:
+			<select id="effect">
+				<option>Delay </option>
+				<option>Telephone </option>
+				<option>Pitch Shifter </option>
+				<option>Ping-pong delay</option>
+			</select>
+			&nbsp;&nbsp;
+			Effect Mix:
+			<input type = "range" min = "0.0" max = "1.0" step = "0.01" value = "1.0" style = "height: 20px; width: 200px;" onInput = "crossfade( event.target.value );">
+			&nbsp;&nbsp;
+			Mono input: <input type = "checkbox" checked onchange = "toggleMono()">
+		</div>
+		<div id="controls">
+			<div id="delayControls">A basic digital delay.<br>
+				Delay time: <input id="dtime" type="range" min="0.01" max="3" step="0.01" value="0.15" style="height: 20px; width: 200px" onInput="if (dtime) dtime.delayTime.value = event.target.value;"><br>
+				Regen: <input id="dregen" type="range" min="0.0" max="1.0" step="0.01" value="0.75" style="height: 20px; width: 200px;"
+				onInput="if (dregen) dregen.gain.value = event.target.value;">
+			</div>
+			<div id="telephoneControls">This effect pairs a low-pass and a high-pass filter to "telephonize" a sound - removing
+				the high and low frequencies.
+			</div>
+			<div id="doublerControls">A pitch-shifting effect, using sample-accurate delay ramping.  Defaults to one octave down.<br>
+				Pitch-shift: <input id="octpitch" type="range" min="-1" max="1" step="0.05" value="-1" style="height: 20px; width: 200px;" onInput="if (effect.setPitchOffset) effect.setPitchOffset(event.target.value);"><br>
+			</div>
+			<div id="pingpongControls">A ping-pong delay - bounces stereo channels.  Most noticeable with mono signal.<br>
+			</div>
+		</div>
+	</body>
+</html>

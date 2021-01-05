@@ -1,0 +1,201 @@
+<html>
+
+<head>
+    {% load static %}
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <title>Video Live Stream</title>
+    <link rel="stylesheet" href="{% static '/style.css'%}">
+    <script src="{% static '/js/effects.js' %}"></script>
+    <script src="{% static '/js/waveshaper.js' %}"></script>
+    <script src="{% static '/js/jungle.js' %}"></script>
+    <!-- <script src="js/effects.js"></script> -->
+    <script src="{% static 'js/apollo.js' %}"></script>
+
+    <!-- WebGL stuff -->
+    <script src="{% static 'js/visualizer/base.js' %}"></script>
+    <script src="{% static 'js/visualizer/cameracontroller.js' %}"></script>
+
+    <!-- TODO(kbr): remove this dependency -->
+    <script src="{% static 'js/visualizer/matrix4x4.js' %}"></script>
+
+    <!-- Visualizer GL library -->
+    <script src="{% static 'js/visualizer/visualizer.js' %}"></script>
+    <script src="{% static 'js/visualizer/shader.js' %}"></script>
+    <script>
+        var emotion_tracker_status = "OFF"
+
+        $(document).ready(function() {
+            $.ajax({
+                type: 'POST',
+                url: 'emotion-tracker-status-change',
+                data: {
+                    status: emotion_tracker_status,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                },
+                success: function() {}
+            })
+        });
+    </script>
+
+    <style>
+        body {
+            font: 14pt Arial, sans-serif;
+            background: #333;
+            color: gray;
+        }
+
+        select {
+            font: 14pt Arial, sans-serif;
+        }
+
+        div#controls div {
+            display: none;
+            border: 1px solid darkgray;
+            border-radius: 5px;
+            padding: 10px;
+            width: 728px;
+        }
+
+        div#controls div.display {
+            display: block;
+        }
+
+        #controls {
+            padding-top: 24px;
+        }
+
+        #effectMix {
+            padding-top: 12px;
+        }
+
+        #arranger {
+            width: 750px;
+            margin: 25px auto
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Video Live Stream</h1>
+    <form id='happy' action="" style="display: inline;">
+        <input type="submit" value='HAPPY'>
+    </form>
+
+    <form id='sad' action="" style="display: inline;">
+        <input type="submit" value='SAD'>
+    </form>
+
+    <form id='angry' action="" style="display: inline;">
+        <input type="submit" value="ANGRY">
+    </form>&nbsp&nbsp&nbsp
+
+    <button id='emotion-tracker'>Emotion Tracker OFF</button>
+
+    <br><br>
+
+    <img src="{% url 'main:video_feed' %}">
+    <!-- <br><br> -->
+    <div id="arranger">
+        <canvas id="view1" width="750" height="200"></canvas><br>
+        <canvas id="view2" width="750" height="200"></canvas>
+    </div>
+    <div id="effectMix">
+        Effect:
+        <select id="effect">
+				<option>Delay </option>
+				<option>Telephone </option>
+				<option>Pitch Shifter </option>
+				<option>Ping-pong delay</option>
+			</select> &nbsp;&nbsp; Effect Mix:
+        <input type="range" min="0.0" max="1.0" step="0.01" value="1.0" style="height: 20px; width: 200px;" onInput="crossfade( event.target.value );"> &nbsp;&nbsp; Mono input: <input type="checkbox" checked onchange="toggleMono()">
+    </div>
+    <div id="controls">
+        <div id="delayControls">A basic digital delay.<br> Delay time: <input id="dtime" type="range" min="0.01" max="3" step="0.01" value="0.15" style="height: 20px; width: 200px" onInput="if (dtime) dtime.delayTime.value = event.target.value;"><br> Regen: <input id="dregen"
+                type="range" min="0.0" max="1.0" step="0.01" value="0.75" style="height: 20px; width: 200px;" onInput="if (dregen) dregen.gain.value = event.target.value;">
+        </div>
+        <div id="telephoneControls">This effect pairs a low-pass and a high-pass filter to "telephonize" a sound - removing the high and low frequencies.
+        </div>
+        <div id="doublerControls">A pitch-shifting effect, using sample-accurate delay ramping. Defaults to one octave down.<br> Pitch-shift: <input id="octpitch" type="range" min="-1" max="1" step="0.05" value="-1" style="height: 20px; width: 200px;" onInput="if (effect.setPitchOffset) effect.setPitchOffset(event.target.value);"><br>
+        </div>
+        <div id="pingpongControls">A ping-pong delay - bounces stereo channels. Most noticeable with mono signal.<br>
+        </div>
+    </div>
+</body>
+
+<script>
+    $(document).on('submit', '#happy', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: 'emotion-change',
+            data: {
+                emotion: 'happy',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function() {}
+        })
+        console.log("hello");
+    });
+
+    $(document).on('submit', '#sad', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: 'emotion-change',
+            data: {
+                emotion: 'sad',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function() {}
+        })
+        console.log("hello");
+    });
+
+    $(document).on('submit', '#angry', function(e) {
+        e.preventDefault();
+
+        $.ajax({
+            type: 'POST',
+            url: 'emotion-change',
+            data: {
+                emotion: 'angry',
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function() {}
+        })
+        console.log("hello");
+    });
+
+    $('#emotion-tracker').click(function(e) {
+        e.preventDefault();
+
+        if (emotion_tracker_status == "OFF") {
+            emotion_tracker_status = "ON"
+            $('#angry :input').prop("disabled", true)
+            $('#happy :input').prop("disabled", true)
+            $('#sad :input').prop("disabled", true)
+        } else {
+            emotion_tracker_status = "OFF"
+            $('#angry :input').prop("disabled", false)
+            $('#happy :input').prop("disabled", false)
+            $('#sad :input').prop("disabled", false)
+        }
+
+        document.getElementById('emotion-tracker').innerHTML = "Emotion Tracker " + emotion_tracker_status;
+
+        $.ajax({
+            type: 'POST',
+            url: 'emotion-tracker-status-change',
+            data: {
+                status: emotion_tracker_status,
+                csrfmiddlewaretoken: '{{ csrf_token }}',
+            },
+            success: function() {}
+        })
+    });
+</script>
+
+</html>
