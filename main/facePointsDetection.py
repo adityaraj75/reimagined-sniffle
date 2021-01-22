@@ -1,6 +1,12 @@
 import cv2
 import numpy as np
 import dlib
+import tkinter as tk
+
+root = tk.Tk()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
+
 
 cap = cv2.VideoCapture(0)
 
@@ -10,12 +16,23 @@ angry_still = cv2.imread('angry_still.png')
 angry_talking = cv2.imread('angry_talking.png')
 
 happy_still = cv2.imread('happy_still.png')
-happy_still = cv2.resize(happy_still,(300,341))
 happy_talking = cv2.imread('happy_talking.png')
-happy_talking = cv2.resize(happy_talking,(300,341))
 
 sad_still = cv2.imread('sad_still.png')
 sad_talking = cv2.imread('sad_talking.png')
+
+original_image_dimensions = still_dict['happy'].shape
+original_image_height = original_image_dimensions[0]
+original_image_width = original_image_dimensions[1]
+
+display_image_width = int(min(original_image_width, int(screen_width*0.60)))
+display_image_height = int(min(original_image_height, int(screen_height*0.75)))
+
+for still_emotion in still_dict:
+    still_dict[still_emotion] = cv2.resize(still_dict[still_emotion], (display_image_width, display_image_height))
+
+for talking_emotion in talking_dict:
+    talking_dict[talking_emotion] = cv2.resize(talking_dict[talking_emotion], (display_image_width, display_image_height))
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("shape_predictor_68_face_landmarks.dat")
@@ -35,18 +52,18 @@ while True:
         landmarks = predictor(gray, face)
         x1,y1 = landmarks.part(62).x , landmarks.part(62).y
         x2,y2 = landmarks.part(66).x , landmarks.part(66).y
-        
+
         a = np.array([x1,y1])
         b = np.array([x2,y2])
         dist = np.linalg.norm(a - b)
-        
-        
+
+
         s1 = np.array([landmarks.part(48).x , landmarks.part(48).y])
         s2 = np.array([landmarks.part(54).x , landmarks.part(54).y])
         sdist = np.linalg.norm(s1 - s2)
-        
+
         print(dist,sdist)
-        
+
         for n in range(0, 68):
             x = landmarks.part(n).x
             y = landmarks.part(n).y

@@ -3,23 +3,22 @@ import numpy as np
 from django.conf import settings
 import dlib
 import dill as pickle
+import tkinter as tk
+
+root = tk.Tk()
+screen_width = root.winfo_screenwidth()
+screen_height = root.winfo_screenheight()
 
 dist, sdist = 0, 1
 
 angry_still = cv2.imread('main/images/angry_still.png')
-angry_still = cv2.resize(angry_still,(300,341))
 angry_talking = cv2.imread('main/images/angry_talking.png')
-angry_talking = cv2.resize(angry_talking,(300,341))
 
 happy_still = cv2.imread('main/images/happy_still.png')
-happy_still = cv2.resize(happy_still,(300,341))
 happy_talking = cv2.imread('main/images/happy_talking.png')
-happy_talking = cv2.resize(happy_talking,(300,341))
 
 sad_still = cv2.imread('main/images/sad_still.png')
-sad_still = cv2.resize(sad_still,(300,341))
 sad_talking = cv2.imread('main/images/sad_talking.png')
-sad_talking = cv2.resize(sad_talking,(300,341))
 
 still_dict = {}
 still_dict['happy'] = happy_still
@@ -30,6 +29,20 @@ talking_dict = {}
 talking_dict['happy'] = happy_talking
 talking_dict['sad'] = sad_talking
 talking_dict['angry'] = angry_talking
+
+original_image_dimensions = still_dict['happy'].shape
+original_image_height = original_image_dimensions[0]
+original_image_width = original_image_dimensions[1]
+
+display_image_width = int(min(original_image_width, int(screen_width*0.60)))
+display_image_height = int(min(original_image_height, int(screen_height*0.75)))
+
+for still_emotion in still_dict:
+    still_dict[still_emotion] = cv2.resize(still_dict[still_emotion], (display_image_width, display_image_height))
+
+for talking_emotion in talking_dict:
+    talking_dict[talking_emotion] = cv2.resize(talking_dict[talking_emotion], (display_image_width, display_image_height))
+
 
 detector = dlib.get_frontal_face_detector()
 predictor = dlib.shape_predictor("main/bigFiles/shape_predictor_68_face_landmarks.dat")
@@ -57,6 +70,7 @@ class VideoCamera(object):
 
         emotion = emotionFile.read()
         emotionFile.close()
+        emotion = emotion.lower()
         still = still_dict[emotion]
         talking = talking_dict[emotion]
 
@@ -87,7 +101,6 @@ class VideoCamera(object):
 
             if emotionTrackerStatus == 'ON':
                 emotionFile = open("main/dataFiles/currentEmotion.txt",'w')
-                print("status on")
                 emotionFile.write(emotions[np.argmax(emotion)])
                 emotionFile.close()
 

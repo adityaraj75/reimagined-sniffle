@@ -100,62 +100,6 @@ function updateAnalysers(time) {
     rafID = window.requestAnimationFrame( updateAnalysers );
 }
 
-// audio graph for ping pong effect : https://drive.google.com/file/d/1NEvvDpofNFh1HISDvB5q-vxvtRR7tPMn/view?usp=sharing
-
-function createPingPongDelay(context, isTrueStereo, delayTime, feedback)
-{
-    // effect object created: refer effect.js
-    var effect = new Effect();
-
-    // heads up for the upcoming methods:
-    // createChannelMerger: creates ChannelMergerNode (combines channel from multiple audio streams into single audio stream)
-    // createChannelSplitter: creates ChannelSplitterNode (used to access the individual channels of an audio stream and process them separately)
-    // createGain: creates GainNode which can be used to control the overall gain (or volume) of the audio graph
-    // createDelay: creates DelayNode which is used to delay the incoming audio signal by a certain amount of time
-    var merger = context.createChannelMerger(2);
-    var leftDelay = context.createDelay();
-    var rightDelay = context.createDelay();
-    var leftFeedback = audioContext.createGain();
-    var rightFeedback = audioContext.createGain();
-    var splitter = context.createChannelSplitter(2);
-
-    // Split the stereo signal
-    // connect params: destination, outputIndex, inputIndex
-    splitter.connect(leftDelay, 0);
-
-    // If the signal is dual copies of a mono signal, we don't want the right channel -
-    // it will just sound like a mono delay.  If it was a real stereo signal, we do want
-    // it to just mirror the channels.
-    if (isTrueStereo)
-        splitter.connect( rightDelay, 1 );
-
-    // delays both nodes by "delaytime"
-    leftDelay.delayTime.value = delayTime;
-    rightDelay.delayTime.value = delayTime;
-
-    // applies gain based on the values passed as "feedback"
-    leftFeedback.gain.value = feedback;
-    rightFeedback.gain.value = feedback;
-
-    // Connect the routing - left bounces to right, right bounces to left.
-    leftDelay.connect(leftFeedback);
-    leftFeedback.connect(rightDelay);
-
-    rightDelay.connect(rightFeedback);
-    rightFeedback.connect(leftDelay);
-
-    // Re-merge the two delay channels into stereo L/R
-    leftFeedback.connect(merger, 0, 0);
-    rightFeedback.connect(merger, 0, 1);
-
-    effect.addLinearControls( [leftDelay.delayTime, rightDelay.delayTime], "Delay", 0.01, 2.0, 0.01, delayTime );
-    effect.addLinearControls( [leftFeedback.gain, rightFeedback.gain], "Feedback", 0.01, 1.0, 0.01, feedback );
-
-    effect.input = splitter;
-    effect.output = merger;
-    return effect;
-}
-
 
 var lpInputFilter=null;
 
@@ -342,6 +286,7 @@ function crossfade(value) {
 var lastEffect = -1;
 
 function changeEffect() {
+
     lfo = null;
     dtime = null;
     dregen = null;
@@ -384,13 +329,13 @@ function changeEffect() {
     if (effectInput)
         effectInput.disconnect();
 
+
     var effect = document.getElementById("effect").selectedIndex;
     var effectControls = document.getElementById("controls");
     if (lastEffect > -1)
         effectControls.children[lastEffect].classList.remove("display");
     lastEffect = effect;
     effectControls.children[effect].classList.add("display");
-
     switch (effect) {
         case 0: // Delay
             currentEffectNode = createDelay();
@@ -411,7 +356,6 @@ function changeEffect() {
     }
     audioInput.connect( currentEffectNode );
 }
-
 
 
 
@@ -452,6 +396,62 @@ function createDelay() {
     delayNode.connect( wetGain );
 
     return delayNode;
+}
+
+// audio graph for ping pong effect : https://drive.google.com/file/d/1NEvvDpofNFh1HISDvB5q-vxvtRR7tPMn/view?usp=sharing
+
+function createPingPongDelay(context, isTrueStereo, delayTime, feedback)
+{
+    // effect object created: refer effect.js
+    var effect = new Effect();
+
+    // heads up for the upcoming methods:
+    // createChannelMerger: creates ChannelMergerNode (combines channel from multiple audio streams into single audio stream)
+    // createChannelSplitter: creates ChannelSplitterNode (used to access the individual channels of an audio stream and process them separately)
+    // createGain: creates GainNode which can be used to control the overall gain (or volume) of the audio graph
+    // createDelay: creates DelayNode which is used to delay the incoming audio signal by a certain amount of time
+    var merger = context.createChannelMerger(2);
+    var leftDelay = context.createDelay();
+    var rightDelay = context.createDelay();
+    var leftFeedback = audioContext.createGain();
+    var rightFeedback = audioContext.createGain();
+    var splitter = context.createChannelSplitter(2);
+
+    // Split the stereo signal
+    // connect params: destination, outputIndex, inputIndex
+    splitter.connect(leftDelay, 0);
+
+    // If the signal is dual copies of a mono signal, we don't want the right channel -
+    // it will just sound like a mono delay.  If it was a real stereo signal, we do want
+    // it to just mirror the channels.
+    if (isTrueStereo)
+    splitter.connect( rightDelay, 1 );
+
+    // delays both nodes by "delaytime"
+    leftDelay.delayTime.value = delayTime;
+    rightDelay.delayTime.value = delayTime;
+
+    // applies gain based on the values passed as "feedback"
+    leftFeedback.gain.value = feedback;
+    rightFeedback.gain.value = feedback;
+
+    // Connect the routing - left bounces to right, right bounces to left.
+    leftDelay.connect(leftFeedback);
+    leftFeedback.connect(rightDelay);
+
+    rightDelay.connect(rightFeedback);
+    rightFeedback.connect(leftDelay);
+
+    // Re-merge the two delay channels into stereo L/R
+    leftFeedback.connect(merger, 0, 0);
+    rightFeedback.connect(merger, 0, 1);
+
+    effect.addLinearControls( [leftDelay.delayTime, rightDelay.delayTime], "Delay", 0.01, 2.0, 0.01, delayTime );
+    effect.addLinearControls( [leftFeedback.gain, rightFeedback.gain], "Feedback", 0.01, 1.0, 0.01, feedback );
+
+    effect.input = splitter;
+    effect.output = merger;
+    return effect;
 }
 
 function createReverb() {

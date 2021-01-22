@@ -9,6 +9,10 @@ def homepage(request):
     emotionFile = open("main/dataFiles/currentEmotion.txt",'w')
     emotionFile.write("happy")
     emotionFile.close()
+
+    statusFile = open("main/dataFiles/emotionTrackerStatus.txt",'w')
+    statusFile.write("OFF")
+    statusFile.close()
     return render(request,'Html/video.html')
 
 def gen(camera):
