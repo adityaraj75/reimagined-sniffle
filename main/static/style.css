@@ -30,13 +30,14 @@ div#controls div.display
     padding-top: 12px;
 }
 
+[onclick] {
+    cursor: pointer;
+}
+
 * {
   box-sizing: border-box;
 }
 
-div{
-    border-style: solid;
-}
 
 .projectTitle{
     text-align: center;
@@ -46,6 +47,7 @@ div{
     width: 20%;
     float: left;
     position: relative;
+    border-style: solid;
 }
 .emotions > div{
     display: flex;
@@ -61,11 +63,23 @@ div{
 .av_stream{
     width: 60%;
     float: left;
+    border-style: solid;
 }
 
 .other_controls{
     width: 20%;
     float: left;
+    padding: 5px;
+    border-style: solid;
+}
+
+.emoTracker {
+    display: flex;
+    align-items: center;
+}
+
+.emoTracker > span{
+    margin-right: 5px;
 }
 
 #main_feed{

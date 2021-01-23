@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
 from main.camera import VideoCamera
+from django.views.decorators.csrf import csrf_protect
+
 import os
 
 
@@ -25,11 +27,11 @@ def video_feed(request):
 	return StreamingHttpResponse(gen(VideoCamera()),
 					content_type='multipart/x-mixed-replace; boundary=frame')
 
-
+@csrf_protect
 def change_emotion(request):
     if request.method == 'POST':
         emotion = request.POST['emotion']
-
+        print(emotion)
         emotionFile = open("main/dataFiles/currentEmotion.txt",'w')
         emotionFile.write(emotion)
         emotionFile.close()

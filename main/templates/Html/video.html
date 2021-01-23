@@ -13,7 +13,7 @@
     <script src="{% static '/js/waveshaper.js' %}"></script>
     <script src="{% static '/js/jungle.js' %}"></script>
     <script src="{% static 'js/apollo.js' %}"></script>
-
+    <script src="{% static 'js/others.js' %}"></script>
     <!-- WebGL stuff -->
     <script src="{% static 'js/visualizer/base.js' %}"></script>
     <script src="{% static 'js/visualizer/cameracontroller.js' %}"></script>
@@ -28,37 +28,35 @@
 </head>
 
 <body>
-
-
-    <!-- <div id="main">
-        <div class = "projectName">
-            <h1 class = "heading" id = "heading">Digital Ventriloquism</h1>
-        </div>
-        <div class = "dropdown">
-            <button class="dropbtn" id="changeCurrentEmotion" onclick="toggleNav()">☰ Change current emotion</button>
-            <div id="emotionsMenu" class="dropdown-content">
-                <a class = "emotion" href="javascript:;" onclick="changeFaceExpression(this);">Angry</a>
-                <a class = "emotion" href="javascript:;" onclick="changeFaceExpression(this);">Sad</a>
-                <a class = "emotion" href="javascript:;" onclick="changeFaceExpression(this);">Happy</a>
-                <a class = "emotion" href="javascript:;">Blah</a>
-            </div>
-        </div>
-        <div class="tracker">
-            <span>Live Emotion Tracking</span>&nbsp&nbsp
-            <label class="switch">
-                <input type="checkbox" id = "emotionTrackingStatus" onclick="toggleEmotionTracker(this);">
-                <span class="slider round"></span>
-            </label>
-        </div>
-
-        <br><br>
-        <img src="{% url 'main:video_feed' %}">
+    <div class = "projectTitleContainer">
+        <h1 class = "projectTitle">Digital Ventriloquism</h1>
+    </div>
+    <div class = "emotions_options">
+        <p style = "text-align: center">Change displayed emotion</p>
         <br>
+        <div class="emotions">
+            <div class="angry">
+                <i class="fas fa-angry fa-9x" style = "color : red" onclick="changeFaceExpression('angry');"></i>
+            </div>
+            <div class="frown">
+                <i class = "fas fa-frown fa-9x" style = "color : blue" onclick="changeFaceExpression('sad');"></i>
+            </div>
+            <div class="grin">
+                <i class = "fas fa-grin fa-9x" style = "color : yellow" onclick="changeFaceExpression('happy');"></i>
+            </div>
+            <div class="dizzy">
+                <i class = "fas fa-dizzy fa-9x"></i>
+            </div>
+
+        </div>
+    </div>
+    <div class="av_stream">
+        <img src="{% url 'main:video_feed' %}" alt="video_feed" id = "main_feed">
         <span class = "fa-stack fa-2x" id = "micElements" onclick="toggleMic()">
             <i class = "fas fa-microphone fa-stack-1x" id = "micBase"></i>
             <i  style = "color:Tomato" id = "micBan"></i>
         </span>
-        <div id="arranger">
+        <div id="arranger" style = "height: 0px">
             <canvas id="view1" ></canvas><br>
             <canvas id="view2" ></canvas>
         </div>
@@ -83,88 +81,15 @@
             <div id="pingpongControls">A ping-pong delay - bounces stereo channels. Most noticeable with mono signal.<br>
             </div>
         </div>
-    </div> -->
-    <div class = "projectTitleContainer">
-            <h1 class = "projectTitle">Digital Ventriloquism</h1>
-        </div>
-        <div class = "emotions_options">
-            <p style = "text-align: center">Change displayed emotion</p>
-            <br>
-            <div class="emotions">
-                <div class="angry">
-                    <i class="fas fa-angry fa-9x" style = "color : red" onclick="changeFaceExpression('angry');"></i>
-                </div>
-                <div class="frown">
-                    <i class = "fas fa-frown fa-9x" style = "color : blue" onclick="changeFaceExpression('sad');"></i>
-                </div>
-                <div class="grin">
-                    <i class = "fas fa-grin fa-9x" style = "color : yellow" onclick="changeFaceExpression('happy');"></i>
-                </div>
-                <div class="dizzy">
-                    <i class = "fas fa-dizzy fa-9x"></i>
-                </div>
-
-            </div>
-        </div>
-        <div class="av_stream">
-            <img src="{% url 'main:video_feed' %}" alt="video_image" id = "main_feed">
-            <span class = "fa-stack fa-2x" id = "micElements" onclick="toggleMic()">
-                <i class = "fas fa-microphone fa-stack-1x" id = "micBase"></i>
-                <i  style = "color:Tomato" id = "micBan"></i>
-            </span>
-            <div id="arranger" style = "height: 0px">
-                <canvas id="view1" ></canvas><br>
-                <canvas id="view2" ></canvas>
-            </div>
-            <div id="effectMix">
-                Effect:
-                <select id="effect">
-                    <option>Delay </option>
-                    <option>Telephone </option>
-                    <option>Pitch Shifter </option>
-                    <option>Ping-pong delay</option>
-                </select> &nbsp;&nbsp; Effect Mix:
-                <input type="range" min="0.0" max="1.0" step="0.01" value="1.0" style="height: 20px; width: 200px;" onInput="crossfade( event.target.value );"> &nbsp;&nbsp; Mono input: <input type="checkbox" checked onchange="toggleMono()">
-            </div>
-            <div id="controls">
-                <div id="delayControls">A basic digital delay.<br> Delay time: <input id="dtime" type="range" min="0.01" max="3" step="0.01" value="0.15" style="height: 20px; width: 200px" onInput="if (dtime) dtime.delayTime.value = event.target.value;"><br> Regen: <input id="dregen"
-                    type="range" min="0.0" max="1.0" step="0.01" value="0.75" style="height: 20px; width: 200px;" onInput="if (dregen) dregen.gain.value = event.target.value;">
-                </div>
-                <div id="telephoneControls">This effect pairs a low-pass and a high-pass filter to "telephonize" a sound - removing the high and low frequencies.
-                </div>
-                <div id="doublerControls">A pitch-shifting effect, using sample-accurate delay ramping. Defaults to one octave down.<br> Pitch-shift: <input id="octpitch" type="range" min="-1" max="1" step="0.05" value="-1" style="height: 20px; width: 200px;" onInput="if (effect.setPitchOffset) effect.setPitchOffset(event.target.value);"><br>
-                </div>
-                <div id="pingpongControls">A ping-pong delay - bounces stereo channels. Most noticeable with mono signal.<br>
-                </div>
-            </div>
-        </div>
-        <div class="other_controls">
+    </div>
+    <div class="other_controls">
+        <div class="emoTracker">
             <span>Live emotion tracking</span>
             <i class="fas fa-toggle-off fa-3x" onclick="toggleEmotionTracker();" id = "emotionTracker"></i>
         </div>
+    </div>
 </body>
-
-<script>
-    function toggleMic()
-    {
-        var banned = document.getElementById("micBan").getAttribute("class");
-        if(banned == null)
-        {
-            document.getElementById("micBan").setAttribute("class", "fas fa-ban fa-stack-2x");
-            if(outputMix != null)
-            {
-                outputMix.gain.value = 0;
-            }
-        }
-        else
-        {
-            document.getElementById("micBan").removeAttribute("class");
-            if(outputMix != null)
-            {
-                outputMix.gain.value = 1;
-            }
-        }
-    }
+<script type="text/javascript">
 
     function changeFaceExpression(selectedExpression)
     {
@@ -180,6 +105,7 @@
             success: function() {}
         });
     }
+
 
     function toggleEmotionTracker()
     {
@@ -215,6 +141,7 @@
             success: function() {}
         });
     }
+
 </script>
 
 </html>

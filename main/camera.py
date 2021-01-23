@@ -80,7 +80,7 @@ class VideoCamera(object):
 
         faces = detector(gray)
         if len(faces) == 0:
-            _, jpeg = cv2.imencode(".jpg", happy_still)
+            _, jpeg = cv2.imencode(".jpg", still_dict['happy'])
             return jpeg.tobytes()
 
 
