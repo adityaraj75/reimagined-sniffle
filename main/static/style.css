@@ -1,33 +1,74 @@
-body
-{
+body {
+    font: 14pt Arial, sans-serif;
+    background-image: url(./extras/background.png);
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.centered_div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+p {
+    font-size: 25px;
+}
+
+div {
+    font-weight: bold;
+}
+
+.round_button {
+    background-color: #43009c;
+    outline: none;
+    border: none;
+    border-radius: 50%;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 40px;
+    margin: none;
+    cursor: pointer;
+    box-shadow: 0 9px #999;
+}
+
+.round_button:active {
+    background-color: #692c01;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+span {
+    font-size: 25px;
+}
+select {
     font: 14pt Arial, sans-serif;
 }
 
-select
-{
-    font: 14pt Arial, sans-serif;
-}
-
-div#controls div
-{
-    display:none; border: 1px solid darkgray;
+div#controls div {
+    display: none;
+    border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
 }
 
-div#controls div.display
-{
+div#controls div.display {
     display: block;
 }
 
-#controls
-{
-    padding-top: 24px;
+#controls {
 }
 
-#effectMix
-{
+#effectMix {
     padding-top: 12px;
+    border-radius: 5px;
+    border-style: solid;
+    border-width: thin;
+    margin-bottom: 10px;
+    padding-bottom: 12px;
+    padding-left: 12px;
 }
 
 [onclick] {
@@ -35,42 +76,50 @@ div#controls div.display
 }
 
 * {
-  box-sizing: border-box;
+    box-sizing: border-box;
 }
 
-
-.projectTitle{
+.projectTitle {
     text-align: center;
 }
 
-.emotions_options{
+.emotions_options {
     width: 20%;
     float: left;
     position: relative;
-    border-style: solid;
+    padding-top: 0px;
 }
-.emotions > div{
+.emotions_options > p{
+    text-align: center;
+    padding: 15px;
+    margin-top: 0px;
+    margin-right: 5px;
+}
+.emotions>div {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 50%;
     margin: 2px auto;
+}
 
+.emotions>div :hover {
+    transform: scale(1.15);
 }
-.emotions > div :hover{
-    transform: scale(1.25);
-}
-.av_stream{
+
+.av_stream {
     width: 60%;
     float: left;
-    border-style: solid;
+    /* background-color: #6d6464; */
 }
 
-.other_controls{
+.other_controls {
     width: 20%;
     float: left;
     padding: 5px;
-    border-style: solid;
+    top: 10px;
+    padding-top: 0px;
+    /* border-style: solid; */
 }
 
 .emoTracker {
@@ -78,14 +127,18 @@ div#controls div.display
     align-items: center;
 }
 
-.emoTracker > span{
+.emoTracker>span {
     margin-right: 5px;
 }
 
-#main_feed{
+#effectMix, #controls{
+    background-color: #63605a;
+}
+
+#main_feed {
     /* max-width: 100%;
     max-height: 100%; */
     margin: auto;
     display: block;
-    border-style: solid;
+    /* border-style: solid; */
 }

@@ -18,8 +18,3 @@ function toggleMic()
         }
     }
 }
-
-var max_height = Math.max($(".other_controls").height(), Math.max($(".av_stream").height(), $(".emotions_options").height()));
-$(".other_controls").height(max_height);
-$(".av_stream").height(max_height);
-$(".emotions_options").height(max_height);
