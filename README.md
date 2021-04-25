@@ -60,5 +60,6 @@ To setup:<br>
     - zipp                   3.4.0
     </pre>
   - Download this repository
-  - Navigate to facade folder
+  - Navigate to reimagined-sniffle folder
   - Enter <code>python manage.py runserver</code> in the terminal 
+  - Ensure **OpenCV** is installed for the Conda environment
