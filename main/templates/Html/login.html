@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 	<head>
-		<title>Welcome to Facade</title>
+		<title>Login</title>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
@@ -10,5 +10,17 @@
 	</head>
 	<body>
 		{% include 'main/includes/navbar.html' %}
+		{% block content %}
+
+	    <div class="container">
+	        <form method="POST">
+	        {% csrf_token %}
+	        {{form.as_p}}
+	            <button style="background-color:#F4EB16; color:blue" class="btn btn-outline-info" type="submit">Login</button>
+	        </form>
+	        Don't have an account? <a href="/register" target="blank"><strong>Register here</strong></a>!
+	    </div>
+
+		{% endblock %}
 	</body>
 </html>
