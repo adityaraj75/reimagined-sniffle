@@ -21,8 +21,8 @@ from django.conf import settings
 app_name = "main"
 
 urlpatterns = [
-	path("home", views.landingpage, name = "landingpage"),
-	path("", views.homepage, name = "homepage"),
+	path("", views.landingpage, name = "landingpage"),
+	path("stream", views.start_stream, name = "stream"),
 	path("login", views.login_user, name = "login"),
 	path("logout", views.logout_user, name = "logout"),
 	path("register", views.register_user, name = "register"),

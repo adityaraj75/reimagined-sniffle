@@ -1,0 +1,21 @@
+{% if messages %}
+	{% for message in messages %}
+		{% if message.tags == 'success'%}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+				{{message}}
+			</div>
+		{% elif message.tags == 'info'%}
+			<div class="alert alert-info alert-dismissible fade show" role="alert">
+				{{message}}
+			</div>
+    	{% elif message.tags == 'warning'%}
+			<div class="alert alert-warning alert-dismissible fade show" role="alert">
+				{{message}}
+			</div>
+		{% elif message.tags == 'error'%}
+			<div class="alert alert-danger alert-dismissible fade show" role="alert">
+				{{message}}
+			</div>
+		{% endif %}
+	{% endfor %}
+{% endif %}

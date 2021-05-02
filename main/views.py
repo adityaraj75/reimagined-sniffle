@@ -9,6 +9,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import NewUserForm
+from django.contrib.auth import authenticate
 
 import os
 
@@ -43,7 +44,7 @@ def register_user(request):
 			user = form.save()
 			username = form.cleaned_data.get('username')
 			login(request, user)
-			return redirect("main:homepage")
+			return redirect("main:landingpage")
 
 		else:
 			for msg in form.error_messages:
@@ -63,15 +64,18 @@ def logout_user(request):
 	messages.info(request, "Logged out successfully!")
 	return redirect("main:landingpage")
 
-def homepage(request):
-	emotionFile = open("main/dataFiles/currentEmotion.txt",'w')
-	emotionFile.write("happy")
-	emotionFile.close()
+def start_stream(request):
+	if (request.user.is_authenticated):
+		emotionFile = open("main/dataFiles/currentEmotion.txt",'w')
+		emotionFile.write("happy")
+		emotionFile.close()
 
-	statusFile = open("main/dataFiles/emotionTrackerStatus.txt",'w')
-	statusFile.write("OFF")
-	statusFile.close()
-	return render(request,'Html/video.html')
+		statusFile = open("main/dataFiles/emotionTrackerStatus.txt",'w')
+		statusFile.write("OFF")
+		statusFile.close()
+		return render(request,'Html/video.html')
+	else:
+		return redirect("main:landingpage")
 
 def gen(camera):
 	while True:
