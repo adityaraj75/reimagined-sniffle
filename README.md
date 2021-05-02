@@ -1,7 +1,7 @@
 # reimagined-sniffle
 Contains the codebase for Facade - A Digital Ventriloquism Web-app
 <br>
-To setup:<br>      
+To setup(for linux-64 bit):<br>      
 	</pre>
   - Download this repository
   - Navigate to facade folder
