@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.http import StreamingHttpResponse
 from main.camera import VideoCamera
+from main.camera import getFake
 from django.views.decorators.csrf import csrf_protect
 from django.contrib.auth import logout
 from django.contrib.auth import login
@@ -12,6 +13,8 @@ from .forms import NewUserForm
 from django.contrib.auth import authenticate
 
 import os
+
+latest_frame = None
 
 
 def landingpage(request):
@@ -77,11 +80,28 @@ def start_stream(request):
 	else:
 		return redirect("main:landingpage")
 
+def join_stream(request):
+	if (request.user.is_authenticated):
+		return render(request,'Html/streamid.html')
+	else:
+		return redirect("main:landingpage")
+
 def gen(camera):
 	while True:
 		frame = camera.get_frame()
+		latest_frame = frame
 		yield (b'--frame\r\n'
 				b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n\r\n')
+
+def ex_stream():
+	while True:
+		fake = getFake()
+		yield (b'--frame\r\n'
+				b'Content-Type: image/jpeg\r\n\r\n' + fake + b'\r\n\r\n')
+
+def send_stream(request):
+	return StreamingHttpResponse(ex_stream(),
+			content_type='multipart/x-mixed-replace; boundary=frame')
 
 def video_feed(request):
 	return StreamingHttpResponse(gen(VideoCamera()),

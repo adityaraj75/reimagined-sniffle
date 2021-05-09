@@ -12,9 +12,9 @@
 	<body>
 		{% include 'main/includes/navbar.html' %}
 		{% include 'main/includes/messages.html' %}
-		<a href="/stream">Start a new stream</a>
-		<div class="existing_streams">
-			<a href="/join">Join this stream(replace this with a thumbnail like youtube and phub)</a>
+		<div class="stream">
+			<img src = "{% url 'main:viewstream' %}" alt = "video_image" id = "main_feed" height='480' width = "480">
 		</div>
+
 	</body>
 </html>

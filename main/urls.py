@@ -29,4 +29,6 @@ urlpatterns = [
 	path("video_feed", views.video_feed, name = "video_feed"),
 	path("emotion-change", views.change_emotion, name = "change-emotion"),
 	path("emotion-tracker-status-change", views.change_emotion_tracker_status, name = "emotion-tracker-status-change"),
+	path("join", views.join_stream, name = "join_stream"),
+	path("viewstream", views.send_stream, name = "viewstream"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
