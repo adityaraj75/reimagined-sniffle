@@ -1,9 +1,9 @@
 import cv2,os
 import numpy as np
-from django.conf import settings
 import dlib
 import dill as pickle
 import tkinter as tk
+from django.conf import settings
 
 root = tk.Tk()
 screen_width = root.winfo_screenwidth()
@@ -52,6 +52,20 @@ model = load_func('main/tf_models/emotion_predictor_HAS1')
 
 emotions = ["angry","disgust","fear","happy","sad","surprise","neutral"]
 
+
+def getFake():
+	emotionFile = open("main/dataFiles/currentEmotion.txt",'r')
+	lipsFile = open("main/dataFiles/lipsPosition.txt",'r')
+	emotion = emotionFile.read()
+	lips = lipsFile.read()
+	emotionFile.close()
+	lipsFile.close()
+	if(lips == "still"):
+		_, jpeg = cv2.imencode(".jpg", still_dict[emotion])
+		return jpeg.tobytes()
+	else:
+		_, jpeg = cv2.imencode(".jpg", talking_dict[emotion])
+		return jpeg.tobytes()
 
 class VideoCamera(object):
 	def __init__(self):
@@ -128,7 +142,13 @@ class VideoCamera(object):
 
 		if dist/sdist > 0.2:
 			_, jpeg = cv2.imencode(".jpg", talking)
+			lipsPosnFile = open("main/dataFiles/lipsPosition.txt",'w')
+			lipsPosnFile.write("talking")
+			lipsPosnFile.close()
 			return jpeg.tobytes()
 		else:
 			_, jpeg = cv2.imencode(".jpg", still)
+			lipsPosnFile = open("main/dataFiles/lipsPosition.txt",'w')
+			lipsPosnFile.write("still")
+			lipsPosnFile.close()
 			return jpeg.tobytes()
