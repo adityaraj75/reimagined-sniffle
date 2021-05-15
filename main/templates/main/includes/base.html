@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+
+{% load static %}
+
+<html>
+<head>
+    <meta charset="UTF-8">
+	<link rel="stylesheet" href="{% static "css/chat_style.css" %}" type="text/css" media="screen" />
+	<script src="{% static "js/jquery-1.12.2.min.js" %}" type="text/javascript"></script>
+	<script src="{% static "js/reconnecting-websocket.min.js" %}" type="text/javascript"></script>
+</head>
+<body>
+	<section>
+		{% block content %}
+		{% endblock %}
+	</section>
+	{% block extra_body %}{% endblock %}
+</body>
+</html>

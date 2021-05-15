@@ -1,12 +1,13 @@
 # reimagined-sniffle
 Contains the codebase for Facade - A Digital Ventriloquism Web-app
 <br>
-To setup(for linux-64 bit):<br>
+To setup(for linux-64 bit):<br>      
+	</pre>
   - Download this repository
-  - Navigate to reimagined-sniffle folder
+  - Navigate to facade folder
   - Create a virtual environment using conda and activate
   	- <code> conda create --name <env_name> --file condarequirements.txt</code><br>
-	- <code> conda activate env_name </code>
+	<code> conda activate env_name </code>
 
 	or
   - Create a virtual environment using pip and activate

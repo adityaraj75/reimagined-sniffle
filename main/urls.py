@@ -15,17 +15,24 @@ Including another URLconf
 """
 from django.urls import path
 from . import views
+from django.contrib import admin
 from django.conf.urls.static import static
 from django.conf import settings
+from django.views.generic.base import TemplateView
+from chat.views import index
 
 app_name = "main"
 
 urlpatterns = [
+	path('chat', index, name = "chat"),
 	path("", views.landingpage, name = "landingpage"),
 	path("stream", views.start_stream, name = "stream"),
+	path('accounts/login/', views.login_user),
+    path('accounts/logout/', views.logout_user),
 	path("login", views.login_user, name = "login"),
 	path("logout", views.logout_user, name = "logout"),
 	path("register", views.register_user, name = "register"),
+	path("admin/", admin.site.urls, name = "admin"),
 	path("video_feed", views.video_feed, name = "video_feed"),
 	path("emotion-change", views.change_emotion, name = "change-emotion"),
 	path("emotion-tracker-status-change", views.change_emotion_tracker_status, name = "emotion-tracker-status-change"),
