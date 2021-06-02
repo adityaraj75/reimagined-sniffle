@@ -24,29 +24,73 @@
 	<script src = "{% static 'js/visualizer/visualizer.js' %}"></script>
 	<script src = "{% static 'js/visualizer/shader.js' %}"></script>
 	<meta name = "viewport" content = "width=device-width, initial-scale=1">
+
+	<style>
+		.middle {
+			transition: .5s ease;
+			opacity: 0;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			-ms-transform: translate(-50%, -50%);
+			text-align: center;
+		}
+		.column {
+			width: 20%;
+			float: left;
+			transition: .5s ease;
+			backface-visibility: hidden;
+			position: relative;
+		}
+		.column:hover .image{
+			opacity: 0.3;
+		}
+		.column:hover .middle{
+			opacity: 1;
+		}
+		.column1 {
+			width: 20%;
+			float: left;
+			transition: .5s ease;
+			backface-visibility: hidden;
+			position: relative;
+		}
+		.column1:hover .image{
+			opacity: 0.3;
+		}
+		.column1:hover .middle{
+			opacity: 1;
+		}
+	</style>
 </head>
 
 <body>
 	{% include 'main/includes/navbar.html' %}
 	{% include 'main/includes/messages.html' %}
+	{% load static %}
 	<div class = "projectTitleContainer">
 		<h1 class = "projectTitle">Digital Ventriloquism</h1>
 	</div>
-	<div class = "emotions_options">
-		<p>Change displayed emotion</p>
-		<br>
-		<div class = "emotions">
-			<div class = "angry">
-				<i class = "fas fa-angry fa-9x" style = "color : red" onclick = "changeFaceExpression('angry');"></i>
+	<div class= "column">
+		<img src= "{% static 'static_img/emoticons_left.gif'%}" height='650' width='100%'>
+		<div class= "middle">
+			<div class = "emotions_options">
+				<p>Change displayed emotion</p>
+				<br>
+				<div class = "emotions">
+					<div class = "angry">
+						<i class = "fas fa-angry fa-9x" style = "color : red" onclick = "changeFaceExpression('angry');"></i>
+					</div>
+					<div class = "frown">
+						<i class = "fas fa-frown fa-9x" style = "color : blue" onclick = "changeFaceExpression('sad');"></i>
+					</div>
+					<div class = "grin">
+						<i class = "fas fa-grin fa-9x" style = "color : yellow" onclick = "changeFaceExpression('happy');"></i>
+					</div>
+				</div>
 			</div>
-			<div class = "frown">
-				<i class = "fas fa-frown fa-9x" style = "color : blue" onclick = "changeFaceExpression('sad');"></i>
-			</div>
-			<div class = "grin">
-				<i class = "fas fa-grin fa-9x" style = "color : yellow" onclick = "changeFaceExpression('happy');"></i>
-			</div>
-
-		</div>
+		</div>	
 	</div>
 	<div id='av' class = "av_stream">
 		<img src = "{% url 'main:video_feed' %}" alt = "video_image" id = "main_feed" height='480' width = "480">
@@ -89,20 +133,25 @@
 		<br>
 		<p class = "centered_div">Play default sound</p>
 		<br>
-		<div class = "centered_div">
-			<button class = "round_button">Laugh</button>
-		</div>
-		<br>
-		<div class = "centered_div">
-			<button class = "round_button">Cry</button>
-		</div>
-		<br>
-		<div class = "centered_div">
-			<button class = "round_button">Growl</button>
-		</div>
-		<br>
-		<div class = "centered_div">
-			<button class = "round_button">Snarl</button>
+		<div class= "column1">
+		<img src= "{% static 'static_img/sound_right.gif'%}" width='20%'>
+			<div class= "middle">
+				<div class = "centered_div">
+					<button class = "round_button">Laugh</button>
+				</div>
+				<br>
+				<div class = "centered_div">
+					<button class = "round_button">Cry</button>
+				</div>
+				<br>
+				<div class = "centered_div">
+					<button class = "round_button">Growl</button>
+				</div>
+				<br>
+				<div class = "centered_div">
+					<button class = "round_button">Snarl</button>
+				</div>
+			</div>
 		</div>
 	</div>
 	<a href="{% url 'main:chat' %}">Chat!</a>
