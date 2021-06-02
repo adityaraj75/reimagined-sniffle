@@ -7,14 +7,66 @@
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-
+		<style>
+			.row {
+  				display: flex;
+				object-fit: contain;
+				max-width: 100%;
+			}
+			.middle {
+				transition: .5s ease;
+				opacity: 0;
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%, -50%);
+				-ms-transform: translate(-50%, -50%);
+				text-align: center;
+			}
+			.column {
+  				flex: 50%;
+  				padding: 2px;
+				transition: .5s ease;
+  				backface-visibility: hidden;
+				position: relative;
+			}
+			.column:hover .image{
+				opacity: 0.3;
+			}
+			.column:hover .middle{
+				opacity: 1;
+			}
+			.text {
+				background-color: #04AA6D;
+				color: white;
+				font-size: 16px;
+				padding: 16px 32px;
+			}
+		</style>
 	</head>
 	<body>
 		{% include 'main/includes/navbar.html' %}
 		{% include 'main/includes/messages.html' %}
-		<a href="/stream">Start a new stream</a>
-		<div class="existing_streams">
-			<a href="/join">Join this stream(replace this with a thumbnail like youtube and phub)</a>
+		{% load static %}
+		<div class="row">
+			<div class="column">
+				<a href="/stream">
+					<img src= "{% static 'static_img/Create_Stream.gif'%}" alt="Create a new stream!" height='650' width='100%'>
+					<div class="middle">
+						<div class="text">Start Stream</div>
+					</div>
+				</a>
+			</div>
+			<div class="column">
+				<div class="existing_streams">
+					<a href="/join">	
+						<img src= "{% static 'static_img/Join_Stream.gif'%}" alt="Join an existing stream!" height='650'>
+						<div class="middle">
+							<div class="text">Join Stream</div>
+						</div>
+					</a>
+				</div>
+			</div>
 		</div>
 	</body>
 </html>
