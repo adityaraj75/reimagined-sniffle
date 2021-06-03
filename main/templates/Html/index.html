@@ -5,6 +5,7 @@
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+		<link rel="stylesheet" href="../../static/index.css">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -12,9 +13,13 @@
 	<body>
 		{% include 'main/includes/navbar.html' %}
 		{% include 'main/includes/messages.html' %}
-		<a href="/stream">Start a new stream</a>
-		<div class="existing_streams">
-			<a href="/join">Join this stream(replace this with a thumbnail like youtube and phub)</a>
+		<div class="row">
+			<div class="column left-col" >
+				<a href="/stream" class = "button1">Start a new stream</a>
+			</div>
+			<div class="column right-col">
+				<a href="/join" class = "button2">Join this stream</a>
+			</div>
 		</div>
 	</body>
 </html>

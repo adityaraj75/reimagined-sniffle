@@ -1,8 +1,9 @@
 body {
     font: 14pt Arial, sans-serif;
-    background-image: url(./extras/background.png);
-    background-repeat: no-repeat;
-    background-size: cover;
+	background: #2196f3;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #f44336, #2196f3);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to left, #f44336, #2196f3); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
 }
 
 .centered_div {
@@ -10,41 +11,67 @@ body {
     justify-content: center;
     align-items: center;
 }
+.projectTitle {
+	text-align: center;
+	padding-left: 06%;
+}
 
 p {
     font-size: 25px;
 }
 
-div {
-    font-weight: bold;
+
+#left {
+    float: left;
+    width: 25%;
+	margin: 10px 10px 10px 25px;
+
 }
 
-.round_button {
-    background-color: #43009c;
-    outline: none;
-    border: none;
-    border-radius: 50%;
-    color: white;
-    padding: 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 40px;
-    margin: none;
-    cursor: pointer;
-    box-shadow: 0 9px #999;
+#av {
+    float: left;
+    width: 50%;
+	margin: 10px;
 }
 
-.round_button:active {
-    background-color: #692c01;
-    box-shadow: 0 5px #666;
-    transform: translateY(4px);
+#right {
+    float: right;
+    width: 22.8%;
+    position: absolute;
+    top: 20;
+    right: 0;
+
 }
-span {
-    font-size: 25px;
+
+.chatbox{
+	height: 400px;
+	width: 300px;
+	display: inline-block;
+	float: right;
+	margin-right: 15%;
+	margin-top: 90px;
 }
-select {
-    font: 14pt Arial, sans-serif;
+.chatbox>h1{
+	text-align: center;
+}
+
+.chats{
+	height: 100%;
+	border: solid;
+	padding: 10px;
+}
+
+.flex-container{
+}
+#send{
+	margin-top: 5px;
+}
+#message{
+	width: 237px;
+	color: black;
+}
+i{
+	padding: 5px;
 }
 
 div#controls div {
@@ -52,13 +79,20 @@ div#controls div {
     border: 1px solid black;
     border-radius: 5px;
     padding: 10px;
+    /* width: 40%; */
 }
 
 div#controls div.display {
     display: block;
 }
 
+#av {
+    width: 50%;
+    margin: 10px;
+}
+
 #controls {
+    /* width: 40%; */
 }
 
 #effectMix {
@@ -83,44 +117,23 @@ div#controls div.display {
     text-align: center;
 }
 
-.emotions_options {
-    width: 20%;
-    float: left;
-    position: relative;
-    padding-top: 0px;
-}
-.emotions_options > p{
-    text-align: center;
-    padding: 15px;
-    margin-top: 0px;
-    margin-right: 5px;
-}
-.emotions>div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 50%;
-    margin: 2px auto;
-}
-
-.emotions>div :hover {
-    transform: scale(1.15);
-}
-
 .av_stream {
     width: 60%;
     float: left;
     /* background-color: #6d6464; */
 }
 
-.other_controls {
-    width: 20%;
-    float: left;
-    padding: 5px;
-    top: 10px;
-    padding-top: 0px;
-    /* border-style: solid; */
+.round_button {
+	width: 100px;
+	font-size: 30px;
 }
+
+.round_button:active {
+    background-color: #692c01;
+    box-shadow: 0 5px #666;
+    transform: translateY(4px);
+}
+
 
 .emoTracker {
     display: flex;
@@ -131,14 +144,19 @@ div#controls div.display {
     margin-right: 5px;
 }
 
-#effectMix, #controls{
+#effectMix,
+#controls {
     background-color: #63605a;
 }
 
 #main_feed {
-    /* max-width: 100%;
-    max-height: 100%; */
+    max-width: 100%;
+    max-height: 100%;
     margin: auto;
     display: block;
-    /* border-style: solid; */
+    border-style: solid;
+}
+.audio-options{
+	margin-top: 80px;
+	padding-bottom: 10px;
 }

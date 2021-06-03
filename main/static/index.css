@@ -1,0 +1,49 @@
+.row{
+	height: 100%;
+	margin-top: 51px;
+	margin-right: 0;
+}
+.navbar, .navbar-inverse{
+	margin-bottom: 0;
+	margin-right: 0;
+	position: fixed;
+	top : 0;
+	width: 100%;
+}
+html, body{
+	height: 100%;
+}
+.column{
+	float: left;
+	width: 50%;
+	height: 100%;
+	bottom: 0;
+	position: relative;
+}
+
+.button1, .button2 {
+        background-color: #1c87c9;
+        border-radius: 10px;
+        color: white;
+        padding: 20px 34px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        font-size: 20px;
+		position: absolute;
+		left:40%;
+		top: 40%;
+        cursor: pointer;
+}
+
+.left-col{
+	background: #642B73;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #C6426E, #642B73);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #C6426E, #642B73); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+.right-col{
+	background: #41295a;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #2F0743, #41295a);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #2F0743, #41295a); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}

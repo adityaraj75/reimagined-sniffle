@@ -76,13 +76,18 @@ def start_stream(request):
 		statusFile = open("main/dataFiles/emotionTrackerStatus.txt",'w')
 		statusFile.write("OFF")
 		statusFile.close()
+
+		messageFile = open("main/dataFiles/messages.txt","w")
+		messageFile.write("")
+		messageFile.close()
+
 		return render(request,'Html/video.html')
 	else:
 		return redirect("main:landingpage")
 
 def join_stream(request):
 	if (request.user.is_authenticated):
-		return render(request,'Html/streamid.html')
+		return render(request, "Html/streamid.html")
 	else:
 		return redirect("main:landingpage")
 
@@ -128,3 +133,23 @@ def change_emotion_tracker_status(request):
 		statusFile.close()
 
 		return HttpResponse('')
+
+
+def writeMessage(request):
+	if request.method == 'POST':
+		message = request.POST['message']
+		if message != "":
+			messageFile = open("main/dataFiles/messages.txt","a")
+			messageFile.write("\n")
+			messageFile.write("<b>"+request.user.username+"</b> : " + message + "<br>")
+			messageFile.close()
+			return HttpResponse('')
+
+
+
+def readMessageViewer(request):
+	if request.method == 'GET':
+		f = open('main/dataFiles/messages.txt', 'r')
+		file_content = f.read()
+		f.close()
+		return HttpResponse(file_content, content_type="text/plain")

@@ -1,20 +1,75 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-	<head>
-		<title>Welcome to Facade</title>
-		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	</head>
-	<body>
-		{% include 'main/includes/navbar.html' %}
-		{% include 'main/includes/messages.html' %}
+<head>
+	<title>Welcome to Facade</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+	<!-- <link rel="stylesheet" href="../../static/chat.css"> -->
+	<link rel="stylesheet" href="../../static/stream.css">
+
+</head>
+
+<body>
+	{% include 'main/includes/navbar.html' %}
+	{% include 'main/includes/messages.html' %}
+	<div class="flex-container">
 		<div class="stream">
-			<img src = "{% url 'main:viewstream' %}" alt = "video_image" id = "main_feed" height='480' width = "480">
+			<img src="{% url 'main:viewstream' %}" alt="video_image" id="main_feed" height='480' width="480">
 		</div>
+		<div class="chatbox" id="myForm">
+			<h1>Comments</h1>
+			<div class="chats">
+				<p id="chats"></p>
+			</div>
 
-	</body>
+			<div class="form-container">
+				<input id="message" type="text" >
+				<button id="send" type="submit" class ="btn btn-primary">Send</button>
+			</div>
+		</div>
+	</div>
+
+</body>
+<script>
+	function openForm() {
+		document.getElementById("myForm").style.display = "block";
+	}
+
+	function closeForm() {
+		document.getElementById("myForm").style.display = "none";
+	}
+
+	$("#send").click(function(e) {
+		$.ajax({
+			type: 'POST',
+			url: 'writeMessage',
+			data: {
+				message: document.getElementById('message').value,
+				csrfmiddlewaretoken: '{{ csrf_token }}',
+			},
+			success: function() {}
+		});
+		document.getElementById('message').value = "";
+	});
+
+
+	var intervalId = window.setInterval(function() {
+		$.ajax({
+			type: "GET",
+			url: "readMessageViewer",
+			success: function(data) {
+				document.getElementById('chats').innerHTML = data;
+			},
+			error: function(e) {
+				// alert("error", e);
+			}
+		});
+	}, 500);
+</script>
+
 </html>
