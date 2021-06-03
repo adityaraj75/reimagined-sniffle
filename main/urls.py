@@ -31,4 +31,6 @@ urlpatterns = [
 	path("emotion-tracker-status-change", views.change_emotion_tracker_status, name = "emotion-tracker-status-change"),
 	path("join", views.join_stream, name = "join_stream"),
 	path("viewstream", views.send_stream, name = "viewstream"),
+	path("writeMessage", views.writeMessage, name = "writeMessage"),
+	path("readMessageViewer", views.readMessageViewer, name="readMessageViewer"),
 ]+ static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

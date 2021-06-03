@@ -1,0 +1,48 @@
+.stream{
+	height: 480px;
+	width: 480px;
+	position: absolute;
+	top:0;
+	bottom: 0;
+	left: 0;
+	right: 0;
+	margin: auto;
+	/* justify-content: center; */
+	display: inline-block;
+}
+
+.chatbox{
+	height: 480px;
+	width: 300px;
+	/* justify-content: center; */
+	display: inline-block;
+	float: right;
+	top: 50%;
+	margin-right: 10%;
+	margin-top: 90px;
+	color: white;
+}
+.chatbox>h1{
+	text-align: center;
+}
+
+.chats{
+	height: 100%;
+	border: solid;
+	padding: 10px;
+}
+
+.flex-container{
+}
+#send{
+	margin-top: 5px;
+}
+#message{
+	width: 237px;
+}
+body{
+	background: #0F2027;  /* fallback for old browsers */
+	background: -webkit-linear-gradient(to right, #2C5364, #203A43, #0F2027);  /* Chrome 10-25, Safari 5.1-6 */
+	background: linear-gradient(to right, #2C5364, #203A43, #0F2027); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+}
